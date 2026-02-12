@@ -25,13 +25,15 @@ def handle_predict_initial():
             "related_symptoms": related_symptoms
         })
     except Exception as e:
+        print(e)
         return jsonify({"error": str(e)}), 500
 
 @app.route("/predict_final", methods=["POST"])
 def handle_predict_final():
-    initial_disease = request.json.get("initial_disease")
-    symptoms_exp = request.json.get("symptoms_exp")
-    days = request.json.get("days")
+    data = request.json
+    initial_disease = data.get("initial_disease")
+    symptoms_exp = data.get("symptoms_exp")
+    days = int(data.get("days"))
     
     try:
         text, desc1, desc2, precautions, severity, specialist1, specialist2 = predict_final(
@@ -47,6 +49,7 @@ def handle_predict_final():
             "specialist_second": specialist2,
         })
     except Exception as e:
+        print(e)
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
